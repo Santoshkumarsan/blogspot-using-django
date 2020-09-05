@@ -1,0 +1,25 @@
+{%extends 'blogapp/base.html'%} {%block title_block%}Contact Us{% endblock %} {%block content%}
+
+
+
+<div class="container">
+
+    <div class="carrd">
+        <div class="card-body">
+            <h3 style="text-align: center;" class="card-title">Contact Us For Better Experience</h3>
+            <hr>
+            <p class="card-text">
+                <form method="POST" style="text-align:center;">
+                    <div class="">
+                        {%csrf_token%} {{ form.as_p }}
+                        <input class="btn btn-lg btn-success" type="submit" value="Submit" />
+                    </div>
+                </form>
+            </p>
+
+        </div>
+    </div>
+</div>
+
+
+{%endblock%}

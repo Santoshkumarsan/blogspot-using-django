@@ -1,0 +1,20 @@
+<style>
+    .page {
+        color: yellow;
+    }
+    
+    .paginator {
+        margin: 15px;
+        margin-left: 43%;
+        clear: both;
+        text-align: center;
+        color: white;
+    }
+</style>
+<div class='paginator'>
+    {%if page.has_previous%}
+    <a class="page" href="?page={{page.previous_page_number}}">Previous</a>&nbsp {%endif%}
+
+    <span>page{{page.number}} of {{page.paginator.num_pages}}</span>&nbsp {%if page.has_next%}
+    <a class="page" href="?page={{page.next_page_number}}">Next</a> {%endif%}
+</div>

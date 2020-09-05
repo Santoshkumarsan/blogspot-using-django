@@ -1,0 +1,21 @@
+{%extends 'blogapp/base.html'%} {%block title_block%}Movies{% endblock %} {%block content%}
+
+<div class="cont container ">
+
+
+    {%if world%} {%for post in world%}
+
+    <div class="card w-100">
+        <div class="card-body">
+            <h4 class="card-title">{{post.title|upper}}</h4>
+            <p class="card-text">{{post.body|safe|truncatewords:40}}</p>
+            <a href="{{post.get_absolute_url}}" class="btn btn-info">Learn more</a>
+            <hr>{{post.publish}}
+            <p style="margin-top: 3px;"></p>
+            <h6 style="color: rgb(217, 255, 0);">Related Blogs: {%for tag in post.tags.all %} <a class="btn-sm btn btn-success " style="margin: 2px;" href="{%url 'post_list_by_tag_name' tag.slug%}">{{tag.name}}</a> <em style="color: rgb(115, 255, 0);"></em> {%endfor%}
+            </h6>
+        </div>
+    </div> {%endfor%} {%include 'blogapp/pagination.html' with page=world%} {%else%}
+    <h4>oh oh, sorry there are no results found</h4> {%endif%}
+</div>
+{%endblock%}

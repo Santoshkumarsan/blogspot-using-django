@@ -1,0 +1,39 @@
+{%extends 'blogapp/base.html'%} {%block title_block%}Blog Application{% endblock %} {%block content%}
+
+<div>
+    {%if form.is_valid%}
+    <div style="padding:10% 20%;">
+        <h1 style="color: greenyellow;">Thanks, your form is successfully submited.</h1>
+        <h3 style="margin-left:18%">Go to Homepage : &nbsp;<a class="btn btn-primary" href="/">Home</a> </h3>
+
+    </div>
+    {%endif%}
+
+    <div class="cont container "> {%if tag%}
+
+
+        <h2>{{tag.name|upper}} Related Posts...</h2> {%endif%} {%for post in post_list%}
+
+        <div class="card w-100 ">
+            <div class="card-body ">
+                <h4 class="card-title ">{{post.title|upper}}</h4>
+                <p class="card-text ">{{post.body|safe|truncatewords:40}}</p>
+                <a href="{{post.get_absolute_url}} " class="btn btn-info ">Learn more</a>
+                <hr>{{post.publish}}
+                <p style="margin-top: 3px; "></p>
+                <h6 style="color: rgb(217, 255, 0); ">Related Blogs: {%for tag in post.tags.all %}
+                    <a class="btn-sm btn btn-success " style="margin: 2px; " href="{%url 'post_list_by_tag_name' tag.slug%} ">{{tag.name}}</a>
+                    <em style="color: rgb(115, 255, 0); "></em> {%endfor%}
+                </h6>
+            </div>
+        </div>{%endfor%}
+    </div>
+
+    {%if not form.is_valid%} {%include 'blogapp/pagination.html' with page=post_list%}{%endif%}
+</div>
+
+
+
+
+
+{%endblock%}

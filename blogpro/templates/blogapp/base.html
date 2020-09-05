@@ -1,0 +1,155 @@
+<!DOCTYPE html>{%load blog_tags%}{%load static%}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{%static 'css/base.css'%}">
+
+    <title>{%block title_block%}{%endblock%}</title>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <a class="navbar-brand" href="/">
+            <h2> Blogspot</h2>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                {%if post_list%}
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">
+                        <h4> Home</h4><span class="sr-only">(current)</span></a>
+                </li>{%else%}
+                <li class="nav-item ">
+                    <a class="nav-link" href="/">
+                        <h5> Home</h5><span class="sr-only">(current)</span></a>
+                </li>{%endif%}{%if Education%}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{post.get_absolute_url}}/education/">
+
+                        <h4> Education</h4>
+                    </a>
+                </li>
+                {%else%}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{post.get_absolute_url}}/education/">
+                        <h5>Education</h5>
+
+                    </a>
+                </li> {%endif%}{%if sports%}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{post.get_absolute_url}}/sports/">
+                        <h4>Sports</h4>
+                    </a>
+                </li>{%else%}
+                <li class="nav-item ">
+                    <a class="nav-link" href="{{post.get_absolute_url}}/sports/">
+                        <h5>Sports</h5>
+                    </a>
+                </li>{%endif%}{%if movies%}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{post.get_absolute_url}}/movies/">
+                        <h4>Movies</h4>
+                    </a>
+                </li>{%else%}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{post.get_absolute_url}}/movies/">
+                        <h5>Movies</h5>
+                    </a>
+                </li>{%endif%} &nbsp;
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <b>Extra </b>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{post.get_absolute_url}}/travel/">Travel</a>
+                        <a class="dropdown-item" href="{{post.get_absolute_url}}/star/">Star</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{post.get_absolute_url}}/world/">worldnews</a>
+                        <a class="dropdown-item" href="{{post.get_absolute_url}}/cricket/">Cricket</a>
+                    </div>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav ">{%if form%}
+                <li class="nav-item active">
+                    <a class="nav-link " href="{{post.get_absolute_url}}/contactus/">
+                        <h4>Contact Us</h4>
+                    </a>
+                </li>{%else%}
+
+                <li class="nav-item ">
+                    <a class="nav-link " href="{{post.get_absolute_url}}/contactus/">
+                        <h5>Contact Us</h5>
+                    </a>
+                </li>{%endif%}
+            </ul>
+            &nbsp;&nbsp; &nbsp;&nbsp;
+
+            <form class="form-inline my-2 my-lg-0" action="{{post.get_absolute_url}}/search/">
+                <input class="form-control mr-sm-2" type="search" name="query" id="query" placeholder="Search" aria-label="Search" required>
+                <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    <div style="margin-top:80px; ">{%if not form%}
+        <div>
+            <div class="sidebar " style="margin-right: 15px;">
+                <div class="carrd w-100  " style="width: 18rem;">
+                    <div class="card-body ">
+                        <h2 class="center">Blog News</h2>
+                        <hr>
+                        <h6 style="color: antiquewhite;">Most Recent Posts:</h6>{%show_latest_posts%}
+                        <h6 style="color: antiquewhite;">Most Commented Posts:</h6>{%get_most_commented_posts as most_commented_posts%}
+                        <ul>{%for post in most_commented_posts%}
+                            <li>
+                                <h6><a href="{{post.get_absolute_url}}">{{post.title|title}}</a></h6>
+                            </li>{%endfor%}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div style="float:left;width:62%;">{%endif%} {%block content%}{%endblock%}
+        </div>
+    </div>
+
+
+    <footer>
+        <h4 style="float: left; color:yellow">About Us</h4>
+        <div class="cof">
+            <a target=_ blank href="https://github.com/Santoshkumarsan"><i class="fa fa-github">github</i></a>&nbsp;&nbsp;
+            <a target=_ blank href="https://www.facebook.com/santoshkumar.das.752"><i class="fa fa-facebook">acebook</i></a>&nbsp;&nbsp;
+            <a target=_ blank href="https://twitter.com/Santosh73734769"><i class="fa fa-twitter">twitter</i></a>&nbsp;&nbsp;
+            <a target=_ blank href="https://twitter.com/Santosh73734769"> <i class="fa fa-instagram">instagram</i></a>&nbsp;&nbsp;
+        </div>
+        <div style="float: left;">
+
+            <p>I am a Software Engineer <br>Currently looking for opertunity</p>
+        </div>
+    </footer>
+    <div class="subfooter">
+        <h6 style="color: white;">@copyright: blogproject</h6>
+        <div class="con">
+            <p>Author: santosh kumar<br>
+                <a href="mailto:das.santoshkumar1999@gmail.com">das.santoshkumar1999@gmail.com</a><br> mobile:+91 7008762479 </p>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>
+</body>
+
+</html>

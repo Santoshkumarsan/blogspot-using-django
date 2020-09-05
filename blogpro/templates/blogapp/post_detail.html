@@ -1,0 +1,184 @@
+<!DOCTYPE html>{%load blog_tags%}{%load static%}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="{%static 'css/base.css'%}">
+
+    <title>{%block title_block%}{%endblock%}</title>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <a class="navbar-brand" href="/">
+            <h2> Blogspot</h2>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <h5> Home</h5><span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/education/">
+                        <h5>Education</h5>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/sports/">
+                        <h5>Sports</h5>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/movies/">
+                        <h5>Movies</h5>
+                    </a>
+                </li>&nbsp;
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <b>Extra </b>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Travel</a>
+                        <a class="dropdown-item" href="/star/">Star</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/world/">worldnews</a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link " href="/contactus/">
+                        <h5>Contact Us</h5>
+                    </a>
+                </li>
+            </ul> &nbsp;&nbsp; &nbsp;&nbsp;
+            <form class="form-inline my-2 my-lg-0" action="/search/">
+                <input class="form-control mr-sm-2" type="search" name="query" id="query" placeholder="Search" aria-label="Search" required>
+                <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <div style="margin-top: 80px;">
+
+
+        <div class="container">
+            <div>{%if tag%}
+                <h2>{{tag.name|upper}} Related Posts...</h2>
+                {%endif%}
+
+                <div class="jumbotron container">
+                    <div style="width:28%;float: right;"><img class="img-fluid" src="{{post.image.url}}" alt="oop's image not found,sorry"></div>
+                    <div style="float: left; width:70%">
+                        <h3><b>{{post.title|upper}}</b></h3>
+                        <em>published on :-  </em> {{post.publish}} <em>by :- </em> {{post.author}}
+
+
+
+                        <p></p>
+                        <h6 style="color: rgb(217, 255, 0); ">Related Blogs: {%for tag in post.tags.all %} <a class="btn btn-sm btn-success " style="margin: 2px;" href="{%url 'post_list_by_tag_name' tag.slug%}">{{tag.name}}</a> {%endfor%}
+                        </h6>
+                        <hr>
+                    </div>
+                    <p style="clear: left;" class="lead container">{{post.body|safe}}</p>&nbsp
+
+
+                    <br>
+                    </h5> {% with comments.count as comments_count %}
+                    <h2 style="color: rgba(7, 205, 255, 0.795);">{{comments_count}} Comment{{comments_count|pluralize}}</h2>
+                    {%endwith%} {% if comments %} {% for comment in comments%}
+
+
+                    <em> <b style="color:rgba(221, 224, 20, 0.911); ">{{comment.name|title}}</b><em  style="font-size:small;"> on {{comment.created}}</em></em>
+                    <div class="container">
+                        <div style="color: antiquewhite; font-size:medium">{{comment.body|linebreaks}}</div>
+                    </div>
+                    {%endfor%}{%else%}
+                    <p>oh oh sorry, There are no comments yet</p>
+
+                    {%endif%} {%if csubmit%}
+
+                    <h4 style="text-align: center;color: rgb(36, 248, 255);">Thanks ,your comment submitted succesfully.</h4>
+                    <hr>
+                    <h3 style="color: rgb(89, 142, 227);"> You can add anathor comment.</h3><br>
+
+                    <form class="container" method="POST">
+                        {{form.as_p}} {%csrf_token%}
+                        <span> <button  class="btn btn-lg btn-success " type="submit">submit</button></span>
+                    </form>
+
+                    {%else%}
+                    <hr>
+                    <h3 style="color: rgb(89, 142, 227);">Here you can add your comment.</h3><br>
+                    <form class="container" method="POST">
+                        {{form.as_p}} {%csrf_token%}
+                        <span><button  class="btn btn-lg btn-success " type="submit">submit</button></span>
+                    </form>
+
+                    {%endif%} <br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        span {
+            margin-left: 12%;
+        }
+        
+        p {
+            font-style: Times;
+            font-size: medium;
+        }
+        
+        .jumbotron {
+            padding: 1rem 1rem;
+            margin-bottom: 2rem;
+            background-color: rgb(168, 90, 39);
+            border-radius: .3rem;
+            margin-top: 5px;
+        }
+        
+        .img-fluid {
+            margin-top: 0%;
+            border: 5px groove yellowgreen;
+            height: auto;
+        }
+    </style>
+    <footer>
+        <h4 style="float: left; color:yellow">About Us</h4>
+        <div class="cof col-lg-12 col-sm-12">
+            <a target=_ blank href="https://github.com/Santoshkumarsan"><i class="fa fa-github">github</i></a>&nbsp;&nbsp;
+            <a target=_ blank href="https://www.facebook.com/santoshkumar.das.752"><i class="fa fa-facebook">acebook</i></a>&nbsp;&nbsp;
+            <a target=_ blank href="https://twitter.com/Santosh73734769"><i class="fa fa-twitter">twitter</i></a>&nbsp;&nbsp;
+            <a target=_ blank href="https://twitter.com/Santosh73734769"> <i class="fa fa-instagram">instagram</i></a>&nbsp;&nbsp;
+        </div>
+        <div style="float: left;">
+
+            <p>I am a Software Engineer <br>Currently looking for opertunity</p>
+        </div>
+    </footer>
+    <div class="subfooter">
+        <h6 style="color: white;">@copyright: blogproject</h6>
+        <div class="con col-sm-12">
+            <p>Author: santosh kumar<br>
+                <a href="mailto:das.santoshkumar1999@gmail.com">das.santoshkumar1999@gmail.com</a><br> mobile:+91 7008762479 </p>
+        </div>
+
+
+
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>
+</body>
+
+</html>
